@@ -1,0 +1,974 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<title>wellness.com</title>
+<style>
+:root{--p:#2563eb;--p2:#1d4ed8;--navy:#123047;--bg:#f5f8fa;--card:#fff;--text:#17212b;--muted:#667085;--line:#dbe3e8;--ok:#15803d;--warn:#b45309;--danger:#b42318;--blue:#2563eb;--purple:#7c3aed}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:linear-gradient(180deg,#eef6f6 0,#f7f9fb 180px);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text)}
+header{background:linear-gradient(135deg,var(--navy) 0%,var(--p2) 55%,var(--p) 100%);color:#fff;padding:20px 16px 18px;position:sticky;top:0;z-index:5;box-shadow:0 4px 16px #12304730}h1{font-size:22px;margin:0 0 5px;letter-spacing:-.2px}.sub{opacity:.86;font-size:13px}
+nav{display:flex;gap:8px;padding:10px 12px;background:#ffffffee;backdrop-filter:blur(10px);position:sticky;top:80px;z-index:4;border-bottom:1px solid var(--line);overflow:auto;box-shadow:0 2px 8px #1230470b}nav button{border:1px solid #dce5e8;background:#f2f6f7;color:#334155;border-radius:22px;padding:9px 14px;white-space:nowrap;font-weight:700;transition:.15s}nav button.active{background:var(--p);border-color:var(--p);color:#fff;box-shadow:0 3px 8px #2563eb33}
+main{max-width:980px;margin:auto;padding:16px}.view{display:none}.view.active{display:block}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:13px;box-shadow:0 3px 10px #1230470b;position:relative;overflow:hidden}.stat:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--p)}.stat b{font-size:19px;display:block;color:var(--navy)}.stat span{font-size:12px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:15px;margin:11px 0;box-shadow:0 4px 14px #1230470a}.card h2,.card h3{color:var(--navy);margin-top:0}.row{display:flex;gap:10px;align-items:center;justify-content:space-between}.grow{flex:1}
+input,select{width:100%;padding:11px 12px;border:1px solid #cfd9df;border-radius:10px;background:#fff;color:var(--text);font:inherit;outline:none}input:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 3px #2563eb18}label{font-size:12px;color:var(--muted);display:block;margin:8px 0 5px}.btn{border:0;border-radius:10px;padding:10px 13px;font-weight:750;font:inherit;cursor:pointer}.primary{background:var(--p);color:#fff}.primary:hover{background:#1d4ed8}.secondary{background:#edf3f4;color:#29404a}.danger{background:#fee4e2;color:#a32018}.admin{background:var(--navy);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.worker{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.name{font-weight:750}.meta{font-size:12px;color:var(--muted);margin-top:2px}.pill{font-size:11px;padding:4px 9px;border-radius:20px;background:#e9f8f3;color:#12623f;font-weight:700}.att{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:10px}.day{border:1px solid var(--line);border-radius:9px;padding:7px 3px;text-align:center;background:#fafcfc;cursor:pointer;font-size:11px}.day strong{display:block;font-size:14px}.day.full{background:#dcfce7;border-color:#86efac}.day.half{background:#fef3c7;border-color:#fcd34d}.day.off{background:#f1f5f9;color:#94a3b8}.weekbar{display:flex;gap:8px;align-items:end}.weekbar>div{flex:1}.amount{font-size:18px;font-weight:800}.table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:10px;overflow:hidden}.table th,.table td{padding:9px 7px;border-bottom:1px solid var(--line);text-align:left}.table th{background:#f1f6f7;color:#334155;font-weight:750}.right{text-align:right!important}.notice{background:#e9f8fa;border:1px solid #a9e4e9;padding:10px;border-radius:12px;font-size:13px;color:#24515a}.empty{padding:25px;text-align:center;color:var(--muted)}
+.locked{background:#fff0ef;border:1px solid #f6b8b3;color:#9f2118;padding:10px;border-radius:12px;font-size:13px}.small{font-size:12px;color:var(--muted)}.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.worker-photo{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #b7e8df;background:#eaf7f5}.worker-head{display:flex;align-items:center;gap:10px}.worker-photo-lg{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #7dd3c7}
+@media(max-width:600px){.cards{grid-template-columns:repeat(2,1fr)}.stat{padding:10px}.stat b{font-size:16px}.grid{grid-template-columns:1fr}.weekbar{flex-direction:column;align-items:stretch}.summary-grid{grid-template-columns:repeat(2,1fr)}main{padding:12px}}
+@media print{@page{size:A4 landscape;margin:10mm}body{background:white;font-size:11px}.no-print,header,nav{display:none!important}main{max-width:none;padding:0}.view{display:none!important}.print-report{display:block!important}.print-report h1{font-size:18px;margin:0 0 4px}.print-report .print-meta{margin-bottom:12px}.print-table{width:100%;border-collapse:collapse}.print-table th,.print-table td{border:1px solid #777;padding:5px 4px;text-align:center}.print-table th:first-child,.print-table td:nth-child(2){text-align:left}.print-table th{background:#eee}.sign{margin-top:24px;display:flex;justify-content:space-between}.sig{width:30%;border-top:1px solid #333;padding-top:5px}nav,.no-print,button{display:none!important}.card{box-shadow:none}}
+.print-report{display:none}
+</style>
+
+<style id="login-style">
+  #loginScreen{
+    position:fixed; inset:0; z-index:9999; overflow:auto;
+    background:linear-gradient(135deg,#eef8ff 0%,#ffffff 48%,#eaf8ef 100%);
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  }
+  .login-wrap{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;max-width:1250px;margin:auto}
+  .login-brand{
+    padding:48px 7vw 40px 6vw;display:flex;flex-direction:column;justify-content:center;
+    background:linear-gradient(145deg,#eaf6ff,#fff 55%,#effbf1);
+  }
+  .brand-logo{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+  .brand-mark{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;
+    background:linear-gradient(135deg,#0878df,#20a63a);color:#fff;font-size:38px;font-weight:900;
+    box-shadow:0 8px 22px #0b72c733}
+  .brand-title{font-size:34px;line-height:1;font-weight:900;color:#17458e}
+  .brand-title span{display:block;color:#16752d;font-size:23px;margin-top:7px;letter-spacing:.3px}
+  .tagline{color:#1950a0;font-weight:700;font-size:16px;margin:6px 0 35px}
+  .brand-photo{width:100%;max-width:590px;border-radius:24px;box-shadow:0 12px 35px #0b4d6b20;
+    background:linear-gradient(135deg,#dff2ff,#fff)}
+  .feature-list{display:grid;gap:18px;margin-top:30px;max-width:580px}
+  .feature{display:flex;gap:14px;align-items:center}
+  .feature-icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:23px;
+    background:#1684df}.feature:nth-child(2) .feature-icon{background:#20b84b}
+  .feature:nth-child(3) .feature-icon{background:#f0a400}.feature:nth-child(4) .feature-icon{background:#7a35d8}
+  .feature b{display:block;color:#173d75}.feature span{font-size:13px;color:#5d6b7c}
+  .login-side{display:flex;align-items:center;justify-content:center;padding:30px}
+  .login-card{width:min(470px,100%);background:#fff;border-radius:26px;padding:34px 30px;
+    box-shadow:0 18px 55px #16416b22;border:1px solid #dce9f3}
+  .login-card .mini-logo{display:flex;justify-content:center;margin-bottom:12px}
+  .mini-mark{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;
+    background:linear-gradient(135deg,#0878df,#20a63a);color:white;font-size:40px;font-weight:900}
+  .login-card h2{text-align:center;color:#17458e;font-size:31px;margin:6px 0}
+  .login-card .welcome{text-align:center;color:#667085;margin:0 0 24px}
+  .login-field{position:relative;margin:13px 0}
+  .login-field .li{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:21px;color:#2d5b91}
+  .login-field input{padding:15px 45px 15px 45px;border:1px solid #cbdbea;border-radius:13px;outline:none}
+  .login-field input:focus{border-color:#1684df;box-shadow:0 0 0 3px #1684df18}
+  .eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);border:0;background:none;font-size:20px;color:#60738c;cursor:pointer}
+  .login-row{display:flex;justify-content:space-between;align-items:center;margin:12px 0 20px;font-size:14px}
+  .remember{display:flex;align-items:center;gap:8px;color:#315071}.remember input{width:auto}
+  .forgot{border:0;background:none;color:#086bd4;font-weight:700;cursor:pointer}
+  .login-btn{width:100%;padding:15px;border:0;border-radius:13px;color:#fff;font-size:18px;font-weight:800;
+    background:linear-gradient(90deg,#0d83e8,#1769e0);cursor:pointer;box-shadow:0 8px 18px #0d75df2b}
+  .face-btn{width:100%;padding:13px;border:1px solid #2b83e0;border-radius:13px;background:#fff;color:#0c67ce;
+    font-size:16px;font-weight:800;cursor:pointer;margin-top:14px}
+  .or{display:flex;align-items:center;gap:12px;color:#7a8795;margin:18px 0}.or:before,.or:after{content:"";height:1px;background:#dfe6ee;flex:1}
+  .secure{text-align:center;color:#778597;font-size:12px;margin-top:18px}
+  .login-error{display:none;background:#fff1f2;border:1px solid #fecdd3;color:#be123c;border-radius:10px;padding:10px;font-size:13px;margin-bottom:12px}
+  .login-help{font-size:12px;color:#7a8795;text-align:center;margin-top:12px}
+  @media(max-width:800px){
+    .login-wrap{grid-template-columns:1fr}.login-brand{display:none}.login-side{min-height:100vh;padding:18px}
+    .login-card{padding:28px 20px}
+  }
+</style>
+
+
+<style id="period-style">
+.period-picker{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:end}
+.period-picker .btn{height:44px}
+.period-label{font-weight:800;color:#17458e}
+.period-total{font-size:22px;font-weight:900}
+@media(max-width:600px){.period-picker{grid-template-columns:1fr 1fr}.period-picker .btn{grid-column:1/-1}}
+</style>
+
+<style id="report-style">
+.report-kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+.report-kpi b{font-size:20px;display:block}.report-kpi span{font-size:12px;color:var(--muted)}
+.report-positive{color:#15803d}.report-negative{color:#b91c1c}
+.report-scroll{overflow:auto}.report-table{width:100%;border-collapse:collapse;font-size:13px}
+.report-table th,.report-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.report-table th{background:#f8fafc}
+.bar-wrap{display:flex;align-items:center;gap:8px;margin:8px 0}.bar{height:14px;border-radius:8px;background:linear-gradient(90deg,#0d83e8,#20b84b);min-width:2px}
+@media print{#reports .no-print{display:none!important}.report-table{font-size:10px}}
+</style>
+
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-wrap">
+    <div class="login-brand">
+      <div class="brand-logo">
+        <div class="brand-mark">✚</div>
+        <div>
+          <div class="brand-title">MANDERA<span>WELLNESS CENTRE</span></div>
+        </div>
+      </div>
+      <div class="tagline">Better Health &nbsp;•&nbsp; Brighter Future</div>
+      <div class="brand-photo" style="height:260px;display:grid;place-items:center;font-size:78px;color:#1684df;">
+        🏥
+      </div>
+      <div class="feature-list">
+        <div class="feature"><div class="feature-icon">♥</div><div><b>Quality Healthcare</b><span>Professional and compassionate care for everyone.</span></div></div>
+        <div class="feature"><div class="feature-icon">♥</div><div><b>Wellness &amp; Prevention</b><span>Healthy today, stronger tomorrow.</span></div></div>
+        <div class="feature"><div class="feature-icon">●</div><div><b>Community Focus</b><span>A healthier community starts with you.</span></div></div>
+        <div class="feature"><div class="feature-icon">✓</div><div><b>Safe &amp; Trusted</b><span>Your health and privacy are our priority.</span></div></div>
+      </div>
+    </div>
+    <div class="login-side">
+      <div class="login-card">
+        <div class="mini-logo"><div class="mini-mark">✚</div></div>
+        <h2>MANDERA</h2>
+        <h2 style="font-size:21px;color:#16752d;margin-top:-2px">WELLNESS CENTRE</h2>
+        <p class="welcome">Welcome Back<br><span style="font-size:13px">Please login to your account to continue</span></p>
+        <div id="loginError" class="login-error"></div>
+        <form onsubmit="return doLogin(event)">
+          <div class="login-field">
+            <span class="li">👤</span>
+            <input id="loginUser" autocomplete="username" placeholder="Username" required>
+          </div>
+          <div class="login-field">
+            <span class="li">🔒</span>
+            <input id="loginPass" type="password" autocomplete="current-password" placeholder="Password" required>
+            <button type="button" class="eye" onclick="toggleLoginPassword()" aria-label="Show password">◉</button>
+          </div>
+          <div class="login-row">
+            <label class="remember"><input id="rememberLogin" type="checkbox"> Remember Me</label>
+            <button type="button" class="forgot" onclick="forgotLogin()">Forgot Password?</button>
+          </div>
+          <button class="login-btn" type="submit">⇥ &nbsp; Login</button>
+        </form>
+        <div class="or">OR</div>
+        <button class="face-btn" type="button" onclick="createAccount()">＋ &nbsp; Create Account</button>
+        <div class="secure">🔒 Username + password authentication</div>
+        <div class="login-help">wellness.com system</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<header><div id="cloudStatus" style="position:fixed;right:12px;top:10px;z-index:9999;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.92);box-shadow:0 2px 8px rgba(0,0,0,.12);font-size:12px">Connecting to Firebase…</div><div class="worker-head"><img class="worker-photo-lg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj4KPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSI2MCIgZmlsbD0iI2U2ZmZmYiIvPgo8Y2lyY2xlIGN4PSI2MCIgY3k9IjQ1IiByPSIyMCIgZmlsbD0iI2YyYzdhNSIvPgo8cGF0aCBkPSJNMzggNDJjMy0xOSA0MS0yMyA0NCAwSDM4eiIgZmlsbD0iI2Y1YjQwMCIvPgo8cGF0aCBkPSJNMzIgNDJoNTZ2OEgzMnoiIGZpbGw9IiNkOTk0MDAiLz4KPHBhdGggZD0iTTQ1IDY2aDMwbDEyIDM1SDMzeiIgZmlsbD0iIzBmNzY2ZSIvPgo8cGF0aCBkPSJNNDUgNzZsLTEzIDI1TTc1IDc2bDEzIDI1IiBzdHJva2U9IiMzMzQxNTUiIHN0cm9rZS13aWR0aD0iOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxjaXJjbGUgY3g9IjUzIiBjeT0iNDUiIHI9IjIuNSIgZmlsbD0iIzMzMyIvPjxjaXJjbGUgY3g9IjY3IiBjeT0iNDUiIHI9IjIuNSIgZmlsbD0iIzMzMyIvPgo8cGF0aCBkPSJNNTMgNTRxNyA2IDE0IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzhiNGEzYSIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==" alt="Construction worker"><div><h1>wellness.com</h1><div class="sub">Daily attendance • Weekly wages • Payment records</div></div><button class="btn secondary no-print" style="margin-left:auto" onclick="logout()">Logout</button></div></header>
+<nav id="nav">
+<button data-view="dashboard" class="active">Dashboard</button><button data-view="daily">Today</button><button data-view="attendance">Attendance</button>
+<button data-view="workers">Workers</button><button data-view="payments">Payments</button><button data-view="reports">Reports</button><button data-view="settings">Settings</button>
+</nav>
+<main>
+<section id="dashboard" class="view active">
+<div class="cards">
+<div class="stat"><b id="sWorkers">0</b><span>Workers</span></div><div class="stat"><b id="sPresent">0</b><span>Present this week</span></div><div class="stat"><b id="sDue">KSh 0</b><span>Weekly due</span></div><div class="stat"><b id="sMaterialAmount">KSh 0</b><span>Material amount</span></div><div class="stat"><b id="sExpenseAmount">KSh 0</b><span>Expense amount</span></div><div class="stat"><b id="sSiteCost">KSh 0</b><span>Total site cost</span></div>
+</div>
+<div class="card"><div class="row"><div><b>Current week</b><div class="meta" id="weekLabel"></div></div><button class="btn primary" onclick="show('attendance')">Mark attendance</button></div></div>
+<div class="card"><h3>Weekly payroll</h3><div id="payrollMini"></div></div>
+<div class="card"><div class="row"><div><h3 style="margin:0">Current Week — Expenses</h3><div class="meta">Item, quantity, amount per item and total</div></div><div class="amount" id="weekExpenseTotal">KSh 0</div></div><div id="weekExpenses"></div></div>
+<div class="card"><div class="row"><div><h3 style="margin:0">Current Week — Materials</h3><div class="meta">Sand / Kokoto, trips and rate per trip</div></div><div class="amount" id="weekMaterialTotal">KSh 0</div></div><div id="weekMaterials"></div></div>
+</section>
+
+
+<section id="daily" class="view">
+<div class="card">
+<div class="row">
+<div><h3 style="margin:0">Today's Attendance</h3><div class="meta" id="todayLabel"></div></div>
+<div class="small">Attendance is open until manually locked by Admin.</div>
+</div>
+<div id="todayLock" style="margin-top:10px"></div>
+</div>
+<div class="summary-grid" id="todayStats"></div>
+<div class="card"><h3>All Workers Today</h3><div id="todayList"></div></div>
+<div class="card no-print">
+<h3>Daily Amount</h3><div class="amount" id="todayAmount"></div>
+<div class="small">This is calculated from today's saved attendance and rates.</div>
+</div>
+</section>
+
+<section id="attendance" class="view">
+<div class="card">
+  <div class="row"><div><h3 style="margin:0">Attendance Marking</h3><div class="meta">Select any date and mark all workers individually.</div></div></div>
+  <div class="grid">
+    <div><label>Attendance date</label><input id="attendanceDate" type="date" onchange="renderDateAttendance()"></div>
+    <div><label>Marking time</label><input id="attendanceTime" type="time" step="60"></div>
+  </div>
+  <div class="row" style="margin-top:8px"><button class="btn secondary" onclick="setAttendanceToday()">Today</button><button class="btn primary" onclick="markSelectedAttendance()">Save selected time</button></div>
+</div>
+<div class="card"><input id="searchDateAtt" placeholder="Search worker..." oninput="renderDateAttendance()"></div>
+<div class="card"><div class="row"><b id="attendanceDateLabel">Selected date</b><span class="meta" id="attendanceMarkedSummary"></span></div><div id="dateAttendanceList"></div></div>
+<div class="card">
+  <div class="weekbar"><div><label>Week starting</label><input id="weekStart" type="date" onchange="render()"></div><button class="btn secondary" onclick="setThisWeek()">This week</button></div>
+</div>
+<div class="card"><input id="searchAtt" placeholder="Search worker in weekly view..." oninput="renderAttendance()"></div>
+<div id="attendanceList"></div>
+<div class="notice">Weekly view: tap a day to cycle <b>Full</b> → <b>Half</b> → <b>Off</b>. The date view above lets you mark any date directly.</div>
+</section>
+
+<section id="workers" class="view">
+<div class="card"><div class="row"><h3 style="margin:0">Workers</h3><button class="btn primary" onclick="newWorker()">+ Add worker</button></div><input id="workerSearch" placeholder="Search worker by name, ID, phone or category..." oninput="renderWorkers()"></div>
+<div id="workerList"></div>
+</section>
+
+<section id="payments" class="view">
+<div class="card"><div class="row"><div><h3 style="margin:0">Payments</h3><div class="meta" id="paymentPeriodLabel">Selected payroll period</div></div><button class="btn primary" onclick="printWeekly()">🖨️ Print selected report</button></div><input id="paymentSearch" placeholder="Search worker..." oninput="renderPayments()"></div><div class="summary-grid" id="paymentSummary"></div>
+<div id="paymentsList"></div>
+</section>
+
+
+<section id="reports" class="view">
+  <div class="card">
+    <div class="row">
+      <div>
+        <h3 style="margin:0">Smart Reports</h3>
+        <div class="meta">Attendance, payroll, expenses and balance for the selected period.</div>
+      </div>
+      <div class="row no-print" style="gap:6px">
+        <button class="btn secondary" onclick="exportReportCSV()">⬇️ Download CSV / Excel</button>
+        <button class="btn secondary" onclick="downloadReportHTML()">⬇️ Download Report</button>
+        <button class="btn primary" onclick="printSmartReport()">🖨️ Save as PDF / Print</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card no-print">
+    <div class="grid">
+      <div>
+        <label>Report period</label>
+        <select id="reportPeriod" onchange="renderReports()">
+          <option value="week">Weekly</option>
+          <option value="month">Monthly</option>
+          <option value="year">Yearly</option>
+        </select>
+      </div>
+      <div>
+        <label>Period</label>
+        <input id="reportDate" type="date" onchange="renderReports()">
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-grid" id="reportStats"></div>
+  <div class="card">
+    <h3>Payroll &amp; Attendance Summary</h3>
+    <div id="reportTable"></div>
+  </div>
+  <div class="card">
+    <h3>Expenses &amp; Financial Balance</h3>
+    <div id="expenseArea"></div>
+  </div>
+</section>
+
+<section id="settings" class="view">
+<div class="card"><h3>Settings</h3>
+<label>Currency</label><input id="currency" value="KSh" onchange="saveSettings()">
+<label>Working days</label><input id="workDays" value="Mon,Tue,Wed,Thu,Fri,Sat" onchange="saveSettings()">
+<p class="meta">Use day names separated by commas. Attendance still remains available for all 7 days.</p>
+<div class="locked"><b>Admin protection:</b> Only the Admin PIN can change worker rates, worker list, attendance after a day is locked, or payment status.</div>
+<label>Admin PIN</label><input id="adminPin" type="password" inputmode="numeric" placeholder="Set admin PIN" onchange="setAdminPin()">
+<p class="small">Set this once. Do not share the PIN with workers.</p>
+<button class="btn secondary no-print" style="margin-top:8px" onclick="changeAdminPassword()">🔐 Change Administrator Password</button>
+<button class="btn danger no-print" style="margin-top:8px" onclick="logout()">↪ Logout</button>
+<button class="btn secondary" onclick="exportData()">Export backup</button>
+<button class="btn danger" onclick="resetAll()">Reset attendance & payment history</button>
+
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<h3>Attendance Settings</h3>
+<label>Default manual marking time</label>
+<input id="attendanceDefaultTime" type="time" onchange="saveAttendanceTime()">
+<p class="small">This is only the default time used when marking attendance. There is <b>no automatic 11 AM lock</b>.</p>
+
+<h3>Data & Security</h3>
+<div class="grid"><button class="btn secondary" onclick="exportData()">⬇️ Backup data</button><button class="btn secondary" onclick="document.getElementById('importBackup').click()">⬆️ Restore backup</button></div>
+<input id="importBackup" type="file" accept="application/json" style="display:none" onchange="importData(event)">
+<div class="small">Keep a backup before changing phones or clearing browser data.</div>
+<h3>Admin Activity Log</h3><div id="activityLog"></div>
+<h3>Admin Members</h3>
+<p class="meta">Create additional administrator login accounts. Each member can log in with their own username and password.</p>
+<div class="grid"><div><label>Member username</label><input id="newAdminUser" placeholder="e.g. manager"></div><div><label>Password</label><input id="newAdminPass" type="password" placeholder="Minimum 8 characters"></div></div>
+<button class="btn primary" style="margin-top:8px" onclick="addAdminMember()">+ Add Admin Member</button>
+<div id="adminMembersList" style="margin-top:10px"></div>
+
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<h3>Expenses</h3>
+<p class="meta">Add site expenses for the selected date. These are included in financial reports.</p>
+<div class="grid">
+  <div><label>Date</label><input id="expenseDate" type="date"></div>
+  <div><label>Item</label><input id="expenseItem" placeholder="Cement, transport, food..."></div>
+</div>
+<div class="grid">
+  <div><label>Quantity</label><input id="expenseQuantity" type="number" min="0.01" step="0.01" placeholder="1"></div>
+  <div><label>Amount per item</label><input id="expenseUnitAmount" type="number" min="0" step="0.01" placeholder="0"></div>
+</div>
+<label>Category</label><input id="expenseCategory" placeholder="Materials, transport, food...">
+<label>Description</label><input id="expenseDescription" placeholder="Optional description">
+<button class="btn primary" style="margin-top:10px" onclick="addExpense()">+ Add Expense</button>
+<div id="expenseList" style="margin-top:12px"></div>
+
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<h3>Materials</h3>
+<p class="meta">Record Sand or Kokoto by number of trips and rate per trip.</p>
+<div class="grid">
+  <div><label>Date</label><input id="materialDate" type="date"></div>
+  <div><label>Material</label><select id="materialType"><option>Sand</option><option>Kokoto</option></select></div>
+</div>
+<div class="grid">
+  <div><label>Trips</label><input id="materialTrips" type="number" min="1" step="1" placeholder="1"></div>
+  <div><label>Rate per trip</label><input id="materialRate" type="number" min="0" step="0.01" placeholder="0"></div>
+</div>
+<button class="btn primary" style="margin-top:10px" onclick="addMaterial()">+ Add Material</button>
+<div id="materialList" style="margin-top:12px"></div>
+
+</div>
+</section>
+
+<section id="printReport" class="print-report"></section>
+</main>
+
+
+<script id="login-script">
+/* =========================================================
+   GOROFA SECURE LOCAL AUTHENTICATION
+   - First-run administrator setup
+   - PBKDF2 password hashing with random salt
+   - No hard-coded admin password
+   - Session timeout
+   - Failed-login lockout
+   - Remember-me uses a persistent session token
+   - Password change / logout
+   NOTE: This is suitable for an offline/local HTML app. A
+   determined user with browser/devtools access can still alter
+   client-side storage. Server authentication is required for
+   protection against a hostile device/user.
+   ========================================================= */
+const AUTH_SESSION_KEY='gorofa_auth_session_v2';
+const AUTH_REMEMBER_KEY='gorofa_auth_remember_v2';
+const AUTH_SESSION_MS=30*60*1000;
+const AUTH_MAX_ATTEMPTS=5;
+const AUTH_LOCK_MS=5*60*1000;
+let authTimer=null;
+let authBusy=false;
+
+function authSettings(){
+  db.settings=db.settings||{};
+  db.settings.auth=db.settings.auth||{};
+  return db.settings.auth;
+}
+function b64(bytes){return btoa(String.fromCharCode(...new Uint8Array(bytes)))}
+function unb64(s){return Uint8Array.from(atob(s),c=>c.charCodeAt(0))}
+function randomBytes(n){return crypto.getRandomValues(new Uint8Array(n))}
+async function hashPassword(password,saltBytes){
+  const enc=new TextEncoder();
+  const key=await crypto.subtle.importKey('raw',enc.encode(password),'PBKDF2',false,['deriveBits']);
+  const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:saltBytes,iterations:150000,hash:'SHA-256'},key,256);
+  return b64(bits);
+}
+async function computeSecret(password,saltBytes){
+  return hashPassword(password,saltBytes);
+}
+async function verifyPassword(password,stored,salt){
+  if(!stored||!salt)return false;
+  const got=await hashPassword(password,unb64(salt));
+  return got===stored;
+}
+function hasCredentials(){return !!authSettings().passwordHash && !!authSettings().salt && !!authSettings().username}
+function sessionObj(){
+  try{return JSON.parse(sessionStorage.getItem(AUTH_SESSION_KEY)||'null')}catch(e){return null}
+}
+function rememberObj(){
+  try{return JSON.parse(localStorage.getItem(AUTH_REMEMBER_KEY)||'null')}catch(e){return null}
+}
+function setSession(remember){
+  const obj={token:b64(randomBytes(32)),expires:Date.now()+AUTH_SESSION_MS};
+  if(remember)localStorage.setItem(AUTH_REMEMBER_KEY,JSON.stringify(obj));
+  else sessionStorage.setItem(AUTH_SESSION_KEY,JSON.stringify(obj));
+  resetAuthTimer();
+}
+function clearSessions(){sessionStorage.removeItem(AUTH_SESSION_KEY);localStorage.removeItem(AUTH_REMEMBER_KEY)}
+function currentSession(){
+  const s=sessionObj();
+  if(s&&s.expires>Date.now())return s;
+  if(s)sessionStorage.removeItem(AUTH_SESSION_KEY);
+  const r=rememberObj();
+  if(r&&r.expires>Date.now())return r;
+  if(r)localStorage.removeItem(AUTH_REMEMBER_KEY);
+  return null;
+}
+function touchSession(){
+  const s=currentSession(); if(!s)return false;
+  s.expires=Date.now()+AUTH_SESSION_MS;
+  if(sessionObj())sessionStorage.setItem(AUTH_SESSION_KEY,JSON.stringify(s));
+  else if(rememberObj())localStorage.setItem(AUTH_REMEMBER_KEY,JSON.stringify(s));
+  resetAuthTimer(); return true;
+}
+function resetAuthTimer(){
+  clearTimeout(authTimer);
+  const s=currentSession(); if(!s)return;
+  authTimer=setTimeout(()=>{logout(true)},Math.max(1000,s.expires-Date.now()));
+}
+function isLoggedIn(){return !!currentSession()}
+function showApp(){
+  const el=document.getElementById('loginScreen');
+  if(el)el.style.display='none';
+  resetAuthTimer();
+}
+function showLogin(){
+  const el=document.getElementById('loginScreen');
+  if(el)el.style.display='block';
+  const u=document.getElementById('loginUser');
+  const p=document.getElementById('loginPass');
+  if(u)u.value=authSettings().username||'';
+  if(p)p.value='';
+  clearLoginError();
+}
+function loginError(msg){
+  const el=document.getElementById('loginError');
+  if(el){el.textContent=msg;el.style.display='block'}
+}
+function clearLoginError(){
+  const el=document.getElementById('loginError');
+  if(el){el.textContent='';el.style.display='none'}
+}
+function setLoginMode(setup){
+  const title=document.querySelector('.login-card h2');
+  const welcome=document.querySelector('.login-card .welcome');
+  const btn=document.querySelector('.login-btn');
+  const forgot=document.querySelector('.forgot');
+  const face=document.querySelector('.face-btn');
+  const remember=document.querySelector('.remember');
+  const pass=document.getElementById('loginPass');
+  if(setup){
+    if(title)title.textContent='CREATE ACCOUNT';
+    if(welcome)welcome.innerHTML='First-time setup<br><span style="font-size:13px">Create the administrator account to protect this system</span>';
+    if(btn)btn.innerHTML='✓ &nbsp; Create Account';
+    if(forgot)forgot.style.display='none';
+    if(face)face.style.display='none';
+    if(remember)remember.style.display='none';
+    if(pass){pass.autocomplete='new-password';pass.placeholder='Password (minimum 8 characters)'}
+  }else{
+    if(title)title.textContent='MANDERA';
+    if(welcome)welcome.innerHTML='Welcome Back<br><span style="font-size:13px">Please login to your account to continue</span>';
+    if(btn)btn.innerHTML='⇥ &nbsp; Login';
+    if(forgot)forgot.style.display='';
+    if(face)face.style.display='';
+    if(remember)remember.style.display='flex';
+    if(pass){pass.autocomplete='current-password';pass.placeholder='Password'}
+  }
+}
+async function ensureLoginCredentials(){
+  const a=authSettings();
+  if(hasCredentials())return true;
+  setLoginMode(true);
+  showLogin();
+  return false;
+}
+async function doLogin(e){
+  e.preventDefault();
+  if(authBusy)return false;
+  authBusy=true; clearLoginError();
+  const a=authSettings();
+  if(!hasCredentials()){
+    const u=document.getElementById('loginUser').value.trim();
+    const p=document.getElementById('loginPass').value;
+    if(!u){loginError('Administrator username is required.');authBusy=false;return false}
+    if(p.length<8){loginError('Password must contain at least 8 characters.');authBusy=false;return false}
+    const confirmPass=prompt('Confirm the administrator password:')||'';
+    if(p!==confirmPass){loginError('Passwords do not match.');authBusy=false;return false}
+    const salt=randomBytes(16);
+    a.username=u;
+    a.salt=b64(salt);
+    a.passwordHash=await hashPassword(p,salt);
+    a.failedAttempts=0;a.lockUntil=0;a.createdAt=new Date().toISOString();
+    save();
+    setSession(false);setLoginMode(false);showApp();
+    alert('Administrator account created successfully. Keep the password private.');
+    authBusy=false;return false;
+  }
+  const now=Date.now();
+  if(a.lockUntil&&now<a.lockUntil){
+    const sec=Math.ceil((a.lockUntil-now)/1000);
+    loginError(`Too many failed attempts. Try again in ${sec} seconds.`);
+    authBusy=false;return false;
+  }
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  let validPrimary=(u===a.username && await verifyPassword(p,a.passwordHash,a.salt));
+  let member=(db.settings.adminMembers||[]).find(m=>m.username===u);
+  let validMember=!!member && await verifyPassword(p,member.passwordHash,member.salt);
+  if(!validPrimary && !validMember){
+    a.failedAttempts=(a.failedAttempts||0)+1;
+    if(a.failedAttempts>=AUTH_MAX_ATTEMPTS){a.lockUntil=Date.now()+AUTH_LOCK_MS;a.failedAttempts=0}
+    save();
+    loginError(a.lockUntil? 'Too many failed attempts. Login is temporarily locked.' : 'Invalid username or password.');
+    authBusy=false;return false;
+  }
+  a.failedAttempts=0;a.lockUntil=0;save();
+  const remember=document.getElementById('rememberLogin')?.checked;
+  setSession(remember);setLoginMode(false);showApp();
+  authBusy=false;return false;
+}
+function toggleLoginPassword(){
+  const p=document.getElementById('loginPass'); if(!p)return;
+  p.type=p.type==='password'?'text':'password';
+}
+async function createAccount(){
+  if(authBusy)return;
+  authBusy=true;
+  try{
+    const username=(prompt('Create username:')||'').trim();
+    if(!username){alert('Username is required.');return}
+    if(username.includes('@')){alert('Use a username only. Email is not required.');return}
+    const password=prompt('Create password (minimum 8 characters):')||'';
+    if(password.length<8){alert('Password must contain at least 8 characters.');return}
+    const confirmPass=prompt('Confirm password:')||'';
+    if(password!==confirmPass){alert('Passwords do not match.');return}
+    const a=authSettings();
+    if(!hasCredentials()){
+      const salt=randomBytes(16);
+      a.username=username;a.salt=b64(salt);a.passwordHash=await hashPassword(password,salt);
+      a.failedAttempts=0;a.lockUntil=0;a.createdAt=new Date().toISOString();
+      save();setSession(false);setLoginMode(false);showApp();
+      alert('Account created successfully.');
+      return;
+    }
+    db.settings.adminMembers=Array.isArray(db.settings.adminMembers)?db.settings.adminMembers:[];
+    if(a.username===username || db.settings.adminMembers.some(m=>m.username===username)){alert('That username already exists.');return}
+    const salt=randomBytes(16);
+    db.settings.adminMembers.push({username,salt:b64(salt),passwordHash:await hashPassword(password,salt),createdAt:new Date().toISOString()});
+    save();
+    alert('Account created successfully. You can now log in with the new username and password.');
+  }finally{authBusy=false}
+}
+
+function forgotLogin(){
+  alert('For security, there is no password-recovery bypass in this offline app. If you still have access, use Settings → Change Admin Password. If the password is lost, restore a trusted backup or reset the application data.');
+}
+async function changeAdminPassword(){
+  if(!isLoggedIn()){showLogin();return}
+  const current=prompt('Enter current administrator password:')||'';
+  if(!(await verifyPassword(current,authSettings().passwordHash,authSettings().salt))){alert('Current password is incorrect.');return}
+  const next=prompt('Enter new password (minimum 8 characters):')||'';
+  if(next.length<8){alert('Password must contain at least 8 characters.');return}
+  const confirmNext=prompt('Confirm new password:')||'';
+  if(next!==confirmNext){alert('Passwords do not match.');return}
+  const salt=randomBytes(16);
+  authSettings().salt=b64(salt);
+  authSettings().passwordHash=await hashPassword(next,salt);
+  authSettings().changedAt=new Date().toISOString();
+  save();clearSessions();
+  alert('Password changed. Please log in again.');
+  showLogin();setLoginMode(false);
+}
+function logout(expired=false){
+  clearSessions();clearTimeout(authTimer);showLogin();setLoginMode(false);
+  if(expired)loginError('Your session expired. Please log in again.');
+}
+async function faceLogin(){
+  alert('Face ID/passkeys are not enabled for this offline version. Use the administrator username and password.');
+}
+function installAuthActivity(){
+  ['click','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{if(isLoggedIn())touchSession()},{passive:true}));
+}
+async function initAuth(){
+  if(!window.crypto?.subtle){alert('This browser does not support the secure password hashing required by this login system. Please use an updated browser.');return}
+  installAuthActivity();
+  if(hasCredentials()&&isLoggedIn()){setLoginMode(false);showApp();return}
+  clearSessions();
+  if(!hasCredentials()){setLoginMode(true);showLogin()}
+  else{setLoginMode(false);showLogin()}
+}
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/12.3.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.3.0/firebase-auth-compat.js"></script>
+<script>
+/* =========================================================
+   FIREBASE CLOUD SYNC
+   Uses the Firebase Web SDK directly from the browser.
+   Shared application data is stored in Firestore; local
+   authentication secrets are deliberately excluded.
+   ========================================================= */
+let cloudReady=false;
+let cloudSaving=false;
+let cloudUnsubscribe=null;
+let cloudApplying=false;
+let cloudStatus='Connecting to Firebase…';
+const FIREBASE_CONFIG={
+  apiKey:"AIzaSyDVBZgQp2u5Awb4O6K1SM9gB6Y-0NpB0GA",
+  authDomain:"gorafa-payment.firebaseapp.com",
+  projectId:"gorafa-payment",
+  storageBucket:"gorafa-payment.firebasestorage.app",
+  messagingSenderId:"646663554381",
+  appId:"1:646663554381:web:c01ad62ad06a10d71b6304"
+};
+const CLOUD_DOC='gorofa/sharedData';
+function cloudClone(v){return JSON.parse(JSON.stringify(v));}
+function cloudSafeData(source){
+  const x=cloudClone(source||{});
+  x.settings=x.settings||{};
+  delete x.settings.auth;
+  delete x.settings.adminMembers;
+  delete x.settings.adminPin;
+  x._cloudUpdatedAt=Date.now();
+  return x;
+}
+function mergeCloudData(remote){
+  if(!remote||typeof remote!=='object')return;
+  const localSettings=db.settings||{};
+  const localAuth=localSettings.auth;
+  const localMembers=localSettings.adminMembers;
+  const localPin=localSettings.adminPin;
+  db=remote;
+  db.settings=db.settings||{};
+  if(localAuth)db.settings.auth=localAuth;
+  if(localMembers)db.settings.adminMembers=localMembers;
+  if(localPin)db.settings.adminPin=localPin;
+  delete db._cloudUpdatedAt;
+  db.activity=Array.isArray(db.activity)?db.activity:[];
+  db.attendance=db.attendance||{};
+  db.attendanceMeta=db.attendanceMeta||{};
+  db.payments=db.payments||{};
+  db.expenses=Array.isArray(db.expenses)?db.expenses:[];
+  db.materials=Array.isArray(db.materials)?db.materials:[];
+  db.locks=db.locks||{};
+  if(typeof render==='function')render();
+}
+function updateCloudStatus(text){
+  cloudStatus=text;
+  const el=document.getElementById('cloudStatus');
+  if(el)el.textContent=text;
+}
+async function initFirebaseCloud(){
+  try{
+    if(!window.firebase){throw new Error('Firebase SDK not loaded. Open this page from a web address (HTTPS), not directly from a file.');}
+    const app=window.firebase.apps.length?window.firebase.app():window.firebase.initializeApp(FIREBASE_CONFIG);
+    const auth=window.firebase.auth(app);
+    if(!auth.currentUser){
+      await auth.signInAnonymously();
+    }
+    const store=window.firebase.firestore(app);
+    const ref=store.collection('gorofa').doc('sharedData');
+    const first=await ref.get();
+    if(first.exists){
+      cloudApplying=true;
+      mergeCloudData(first.data());
+      cloudApplying=false;
+      updateCloudStatus('☁️ Connected • Shared data loaded');
+    }else{
+      await ref.set(cloudSafeData(db));
+      updateCloudStatus('☁️ Connected • Initial data uploaded');
+    }
+    cloudReady=true;
+    cloudUnsubscribe=ref.onSnapshot(snap=>{
+      if(!snap.exists||cloudSaving||cloudApplying)return;
+      cloudApplying=true;
+      try{mergeCloudData(snap.data());updateCloudStatus('☁️ Live • Changes syncing automatically');}
+      finally{cloudApplying=false;}
+    },err=>updateCloudStatus('⚠️ Firebase error: '+(err.code||err.message||'check Firestore rules')));
+    window.gorofaFirebase={app,auth,store,ref};
+  }catch(err){
+    console.error('Firebase init failed',err);
+    updateCloudStatus('⚠️ Firebase failed • '+(err.code||err.message||'check Firestore/Auth settings'));
+  }
+}
+async function pushCloud(){
+  if(!cloudReady||cloudApplying||!window.gorofaFirebase)return;
+  try{
+    cloudSaving=true;
+    await window.gorofaFirebase.ref.set(cloudSafeData(db));
+    updateCloudStatus('☁️ Saved • Live sharing enabled');
+  }catch(err){
+    console.error('Firebase save failed',err);
+    updateCloudStatus('⚠️ Could not save • '+(err.code||err.message||'check Firestore rules'));
+  }finally{cloudSaving=false;}
+}
+
+const initialWorkers = [{"id": "22210341", "name": "CRIUS MWAVU MBWIA", "phone": "0722874264", "category": "Engineer", "fullRate": 2300.0, "halfRate": 1800.0}, {"id": "36389821", "name": "daniel anjila", "phone": "759099998", "category": "operater", "fullRate": 2000.0, "halfRate": 1500.0}, {"id": "41503347", "name": "ISMAIL NJERERE", "phone": "118469954", "category": "Skilled", "fullRate": 1500.0, "halfRate": 1200.0}, {"id": "27969887", "name": "mumo mwangi", "phone": "0724382956", "category": "Skilled", "fullRate": 1700.0, "halfRate": 1200.0}, {"id": "28704201", "name": "wilstone omondi", "phone": "718448916", "category": "Skilled", "fullRate": 1700.0, "halfRate": 1200.0}, {"id": "26850234", "name": "antony wanyama", "phone": "715883818", "category": "Skilled", "fullRate": 1700.0, "halfRate": 1200.0}, {"id": "35278708", "name": "chris wanjala", "phone": "740289297", "category": "Skilled", "fullRate": 1700.0, "halfRate": 1200.0}, {"id": "40838648", "name": "ANDERSON KITSAO", "phone": "768486964", "category": "Skilled", "fullRate": 1900.0, "halfRate": 1200.0}, {"id": "13283955", "name": "ISAACK SIADA", "phone": "727954992", "category": "Skilled", "fullRate": 1700.0, "halfRate": 1400.0}, {"id": "23764458", "name": "issack muimi", "phone": "718501166", "category": "Skilled", "fullRate": 1700.0, "halfRate": 1200.0}, {"id": "32771706", "name": "hesbon mwangi", "phone": "725008770", "category": "Skilled", "fullRate": 1700.0, "halfRate": 1200.0}, {"id": "22667905", "name": "JASPER ONYAI", "phone": "797411687", "category": "Skilled", "fullRate": 1700.0, "halfRate": 1500.0}, {"id": "40898648", "name": "dan mwangi", "phone": "722874264", "category": "Skilled", "fullRate": 1700.0, "halfRate": 1200.0}, {"id": "28045287", "name": "james chikuu", "phone": "715110420", "category": "Skilled", "fullRate": 1700.0, "halfRate": 1200.0}, {"id": "31786717", "name": "RAMA SALIM", "phone": "0113262957", "category": "Skilled", "fullRate": 1900.0, "halfRate": 1200.0}, {"id": "32663487", "name": "abdullah muhamed", "phone": "710337385", "category": "Skilled", "fullRate": 1700.0, "halfRate": 1400.0}, {"id": "398754321", "name": "DAVID PETER", "phone": "745633179", "category": "Skilled", "fullRate": 1500.0, "halfRate": 700.0}, {"id": "39064814", "name": "JOSHUA MWAMERI", "phone": "723647524", "category": "Skilled", "fullRate": 1500.0, "halfRate": 700.0}, {"id": "26901434", "name": "evans dirango", "phone": "714034234", "category": "Skilled", "fullRate": 2000.0, "halfRate": 1500.0}, {"id": "24936907", "name": "Elijah Mulawasi", "phone": "723304458", "category": "skilled", "fullRate": 1700.0, "halfRate": 1200.0}, {"id": "31255950", "name": "HASSAN NOOR", "phone": "725265450", "category": "UNSKILLED", "fullRate": 1100.0, "halfRate": 1000.0}, {"id": "28699025", "name": "albert mwangi", "phone": "711964654", "category": "UNSKILLED", "fullRate": 1500.0, "halfRate": 1000.0}, {"id": "25746053", "name": "ALI SULEMAN IBRAHIM", "phone": "723085351", "category": "UNSKILLED", "fullRate": 1100.0, "halfRate": 700.0}, {"id": "31225579", "name": "ANTONY MULIALE", "phone": "769473923", "category": "UNSKILLED", "fullRate": 1000.0, "halfRate": 700.0}, {"id": "130196252", "name": "charles mutimi", "phone": "728768087", "category": "UNSKILLED", "fullRate": 1500.0, "halfRate": 1000.0}, {"id": "43414837", "name": "josphel omollo", "phone": "725475053", "category": "UNSKILLED", "fullRate": 1100.0, "halfRate": 700.0}, {"id": "38734493", "name": "wilfred otieno", "phone": "769128887", "category": "UNSKILLED", "fullRate": 1100.0, "halfRate": 700.0}, {"id": "37577415", "name": "SAMUEL CHENGO", "phone": "799010226", "category": "UNSKILLED", "fullRate": 1100.0, "halfRate": 700.0}, {"id": "25876261", "name": "baraka ali", "phone": "0703245202", "category": "UNSKILLED", "fullRate": 1000.0, "halfRate": 700.0}, {"id": "34741208", "name": "MASUDI BUNGARE", "phone": "745709652", "category": "UNSKILLED", "fullRate": 1100.0, "halfRate": 700.0}, {"id": "28139533", "name": "ABDIRIZAK ABDULLAH", "phone": "0707098873", "category": "UNSKILLED", "fullRate": 1500.0, "halfRate": 700.0}, {"id": "25764174", "name": "denis kilonzo", "phone": "0717748457", "category": "UNSKILLED", "fullRate": 1100.0, "halfRate": 700.0}, {"id": "35669051", "name": "ABDISAMAD HASSAN", "phone": "721648392", "category": "UNSKILLED", "fullRate": 1000.0, "halfRate": 700.0}, {"id": "42700250", "name": "victor mutemi", "phone": "141441550", "category": "UNSKILLED", "fullRate": 1000.0, "halfRate": 700.0}, {"id": "31990582", "name": "JOHNMAKAU", "phone": "0722305046", "category": "UNSKILLED", "fullRate": 1000.0, "halfRate": 700.0}, {"id": "42171518", "name": "mohamed amin", "phone": "788771986", "category": "UNSKILLED", "fullRate": 1000.0, "halfRate": 700.0}, {"id": "31245179", "name": "emmanuel murithi", "phone": "798987143", "category": "UNSKILLED", "fullRate": 1000.0, "halfRate": 700.0}, {"id": "30141952", "name": "omar ali", "phone": "118547165", "category": "UNSKILLED", "fullRate": 1500.0, "halfRate": 700.0}, {"id": "22149564", "name": "saddam mohamed", "phone": "727440725", "category": "UNSKILLED", "fullRate": 1000.0, "halfRate": 700.0}, {"id": "26250202", "name": "hassan husein", "phone": "727294781", "category": "UNSKILLED", "fullRate": 1100.0, "halfRate": 700.0}, {"id": "40770256", "name": "hashim mohamed", "phone": "754845612", "category": "UNSKILLED", "fullRate": 1000.0, "halfRate": 700.0}, {"id": "25746053", "name": "ALI SULEMAN IBRAHIM", "phone": "723085351", "category": "CURING", "fullRate": 1600.0, "halfRate": 700.0}, {"id": "41776447", "name": "shamsudin abdinasir", "phone": "72686920", "category": "superviser", "fullRate": 700.0, "halfRate": 0}];
+const KEY='gorofa_pay_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{workers:initialWorkers,attendance:{},attendanceMeta:{},payments:{},expenses:[],materials:[],settings:{currency:'KSh',workDays:'Mon,Tue,Wed,Thu,Fri,Sat',adminPin:'1234',periodType:'week',periodDate:'',periodYear:'',attendanceDefaultTime:'08:00',adminMembers:[]}};
+if(!Array.isArray(db.workers)) db.workers=[];
+// Restore/merge the original worker register if local storage was cleared or a prior login update replaced it.
+const existingWorkerIds=new Set(db.workers.map(w=>String(w.id)));
+initialWorkers.forEach(w=>{if(!existingWorkerIds.has(String(w.id))) db.workers.push({...w});});
+db.settings=db.settings||{}; db.settings.currency=db.settings.currency||'KSh'; db.settings.workDays=db.settings.workDays||'Mon,Tue,Wed,Thu,Fri,Sat'; db.settings.attendanceDefaultTime=db.settings.attendanceDefaultTime||'08:00'; db.settings.adminMembers=Array.isArray(db.settings.adminMembers)?db.settings.adminMembers:[]; db.attendanceMeta=db.attendanceMeta||{}; db.expenses=Array.isArray(db.expenses)?db.expenses:[]; db.materials=Array.isArray(db.materials)?db.materials:[]; db.locks=db.locks||{}; db.activity=Array.isArray(db.activity)?db.activity:[]; db.payments=db.payments||{};
+function save(){localStorage.setItem(KEY,JSON.stringify(db)); if(!cloudApplying) pushCloud();}
+function cur(n){return (db.settings.currency||'KSh')+' '+Number(n||0).toLocaleString()}
+function monday(d){d=new Date(d);let x=(d.getDay()+6)%7;d.setDate(d.getDate()-x);d.setHours(0,0,0,0);return d}
+function iso(d){return new Date(d).toISOString().slice(0,10)}
+function setThisWeek(){weekStart.value=iso(monday(new Date()));render()}
+function week(){return weekStart.value||iso(monday(new Date()))}
+function days(){let s=new Date(week()+'T00:00:00');return Array.from({length:7},(_,i)=>{let d=new Date(s);d.setDate(d.getDate()+i);return d})}
+function key(wid,date){return wid+'|'+date}
+function status(wid,date){return db.attendance[key(wid,date)]||'off'}
+function calc(w){return days().reduce((a,d)=>a+(status(w.id,iso(d))==='full'?+w.fullRate:status(w.id,iso(d))==='half'?+w.halfRate:0),0)}
+function present(w){return days().filter(d=>status(w.id,iso(d))!=='off').length}
+
+function renderDashboard(){
+  const d=days();
+  const weekLabel=document.getElementById('weekLabel');
+  const sWorkers=document.getElementById('sWorkers');
+  const sPresent=document.getElementById('sPresent');
+  const sDue=document.getElementById('sDue');
+  const sMaterialAmount=document.getElementById('sMaterialAmount');
+  const sExpenseAmount=document.getElementById('sExpenseAmount');
+  const sSiteCost=document.getElementById('sSiteCost');
+  const payrollMini=document.getElementById('payrollMini');
+
+  if(!weekLabel||!sWorkers||!sPresent||!sDue||!payrollMini)return;
+
+  weekLabel.textContent=d[0].toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'})+' – '+d[6].toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'});
+  sWorkers.textContent=db.workers.length;
+  sPresent.textContent=db.workers.reduce((sum,w)=>sum+present(w),0);
+  const total=db.workers.reduce((sum,w)=>sum+calc(w),0);
+  sDue.textContent=cur(total);
+
+  const ex=db.expenses.filter(e=>inCurrentWeek(e.date));
+  const mat=db.materials.filter(m=>inCurrentWeek(m.date));
+  const expenseAmount=ex.reduce((a,e)=>a+expenseTotal(e),0);
+  const materialAmount=mat.reduce((a,m)=>a+materialTotal(m),0);
+  if(sMaterialAmount)sMaterialAmount.textContent=cur(materialAmount);
+  if(sExpenseAmount)sExpenseAmount.textContent=cur(expenseAmount);
+  if(sSiteCost)sSiteCost.textContent=cur(total+expenseAmount+materialAmount);
+
+  renderWeekCosts();
+  payrollMini.innerHTML=db.workers.map((w,i)=>{
+    const amount=calc(w);
+    const daysPresent=present(w);
+    const paid=!!db.payments[w.id+'|'+week()];
+    return `<div class="row" style="padding:9px 0;border-bottom:1px solid var(--line)">
+      <div class="worker-head">
+        <img class="worker-photo" src="${AVATAR}" alt="Construction worker">
+        <div><b>${i+1}. ${esc(w.name)}</b><div class="meta">${esc(w.category)} • ${esc(w.id)} • ${daysPresent} day${daysPresent===1?'':'s'}</div></div>
+      </div>
+      <div class="right"><div class="amount">${cur(amount)}</div><span class="pill">${paid?'PAID':'DUE'}</span></div>
+    </div>`;
+  }).join('') || '<div class="empty">No workers registered.</div>';
+}
+
+function selectedPeriod(){
+  const type=document.getElementById('periodType')?.value||'week';
+  const raw=document.getElementById('periodDate')?.value||iso(new Date());
+  const dt=new Date(raw+'T00:00:00');
+  let start,end,label;
+  if(type==='year'){
+    const y=+(document.getElementById('periodYear')?.value||dt.getFullYear());
+    start=new Date(y,0,1); end=new Date(y+1,0,1); label='Year '+y;
+  }else if(type==='month'){
+    start=new Date(dt.getFullYear(),dt.getMonth(),1); end=new Date(dt.getFullYear(),dt.getMonth()+1,1);
+    label=start.toLocaleDateString('en',{month:'long',year:'numeric'});
+  }else{
+    start=monday(dt); end=new Date(start); end.setDate(end.getDate()+7);
+    label=start.toLocaleDateString()+' – '+new Date(end-1).toLocaleDateString();
+  }
+  const ds=[];
+  for(let d=new Date(start);d<end;d.setDate(d.getDate()+1)) ds.push(new Date(d));
+  return {type,start,end,days:ds,label};
+}
+function periodCalc(w,p){
+  return p.days.reduce((a,d)=>a+(status(w.id,iso(d))==='full'?+w.fullRate:status(w.id,iso(d))==='half'?+w.halfRate:0),0);
+}
+function periodPresent(w,p){return p.days.filter(d=>status(w.id,iso(d))!=='off').length}
+function initPeriod(){
+  const sel=document.getElementById('periodYear');
+  if(!sel)return;
+  const y=new Date().getFullYear();
+  sel.innerHTML='';
+  for(let i=y-5;i<=y+5;i++) sel.insertAdjacentHTML('beforeend',`<option value="${i}">${i}</option>`);
+  const saved=db.settings.periodType||'week';
+  document.getElementById('periodType').value=saved;
+  document.getElementById('periodDate').value=db.settings.periodDate||iso(new Date());
+  sel.value=db.settings.periodYear||y;
+  updatePeriodControls();
+}
+function updatePeriodControls(){
+  const t=document.getElementById('periodType')?.value||'week';
+  document.getElementById('periodDateBox').style.display=t==='year'?'none':'block';
+  document.getElementById('periodYearBox').style.display=t==='year'?'block':'none';
+}
+function savePeriodAndRender(){
+  const t=document.getElementById('periodType').value;
+  db.settings.periodType=t;
+  db.settings.periodDate=document.getElementById('periodDate').value;
+  db.settings.periodYear=document.getElementById('periodYear').value;
+  save(); updatePeriodControls(); render();
+}
+function setCurrentPeriod(){
+  const now=new Date();
+  document.getElementById('periodDate').value=iso(now);
+  document.getElementById('periodYear').value=now.getFullYear();
+  savePeriodAndRender();
+}
+function show(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(v).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));render()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.view));
+function cutoffPassed(date){
+  return false;
+}
+function cycle(wid,date){
+  if(cutoffPassed(date)||db.locks[date]){
+    if(!adminOK())return;
+  }
+  let k=key(wid,date),v=status(wid,date);
+  db.attendance[k]=v==='off'?'full':v==='full'?'half':'off';save();render()
+}
+const AVATAR='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj4KPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSI2MCIgZmlsbD0iI2U2ZmZmYiIvPgo8Y2lyY2xlIGN4PSI2MCIgY3k9IjQ1IiByPSIyMCIgZmlsbD0iI2YyYzdhNSIvPgo8cGF0aCBkPSJNMzggNDJjMy0xOSA0MS0yMyA0NCAwSDM4eiIgZmlsbD0iI2Y1YjQwMCIvPgo8cGF0aCBkPSJNMzIgNDJoNTZ2OEgzMnoiIGZpbGw9IiNkOTk0MDAiLz4KPHBhdGggZD0iTTQ1IDY2aDMwbDEyIDM1SDMzeiIgZmlsbD0iIzBmNzY2ZSIvPgo8cGF0aCBkPSJNNDUgNzZsLTEzIDI1TTc1IDc2bDEzIDI1IiBzdHJva2U9IiMzMzQxNTUiIHN0cm9rZS13aWR0aD0iOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxjaXJjbGUgY3g9IjUzIiBjeT0iNDUiIHI9IjIuNSIgZmlsbD0iIzMzMyIvPjxjaXJjbGUgY3g9IjY3IiBjeT0iNDUiIHI9IjIuNSIgZmlsbD0iIzMzMyIvPgo8cGF0aCBkPSJNNTMgNTRxNyA2IDE0IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzhiNGEzYSIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==';
+
+function renderAttendance(){
+  const q=(document.getElementById('searchAtt')?.value||'').toLowerCase();
+  const ds=days();
+  const list=db.workers.filter(w=>(w.name+' '+w.id+' '+w.category).toLowerCase().includes(q));
+  const el=document.getElementById('attendanceList');
+  if(!el)return;
+  el.innerHTML=list.map(w=>{
+    const cells=ds.map(d=>{
+      const date=iso(d),v=status(w.id,date),locked=!!db.locks[date];
+      const label=v==='full'?'FULL':v==='half'?'HALF':'OFF';
+      const onclick=locked?`adminEditAttendance('${esc(w.id)}','${date}')`:`cycle('${esc(w.id)}','${date}')`;
+      return `<button class="day ${v}" onclick="${onclick}" title="${locked?'Admin edit required':'Tap to change'}"><strong>${d.getDate()}</strong>${label}</button>`;
+    }).join('');
+    return `<div class="card"><div class="row"><div><div class="name">${esc(w.name)}</div><div class="meta">${esc(w.category)} • ${esc(w.id)}</div></div><div class="amount">${cur(calc(w))}</div></div><div class="att">${cells}</div></div>`;
+  }).join('') || '<div class="empty">No workers found.</div>';
+}
+
+function renderWorkers(){
+ const q=(document.getElementById('workerSearch')?.value||'').toLowerCase();
+ const list=db.workers.filter(w=>(w.name+' '+w.id+' '+w.phone+' '+w.category).toLowerCase().includes(q));
+ workerList.innerHTML=list.map(w=>{const i=db.workers.indexOf(w);return `<div class="card"><div class="row"><div class="worker-head"><img class="worker-photo" src="${AVATAR}" alt="Construction worker"><div><div class="name">${esc(w.name)}</div><div class="meta">${esc(w.id)} • ${esc(w.phone)} • ${esc(w.category)}</div></div></div><div><button class="btn secondary" onclick="editWorker(${i})">Edit</button> <button class="btn danger" onclick="deleteWorker(${i})">Delete</button></div></div><div class="grid"><div><label>Full day</label><input type="number" value="${w.fullRate}" readonly onclick="if(adminOK()){this.readOnly=false}" onchange="if(!adminOK())return;db.workers[${i}].fullRate=+this.value;save();render()"></div><div><label>Half day</label><input type="number" value="${w.halfRate}" readonly onclick="if(adminOK()){this.readOnly=false}" onchange="if(!adminOK())return;db.workers[${i}].halfRate=+this.value;save();render()"></div></div></div>`}).join('')||'<div class="empty">No workers found.</div>';
+}
+function deleteWorker(i){if(!adminOK())return;const w=db.workers[i];if(!w)return;if(!confirm('Delete '+w.name+'? This removes the worker from the register but keeps existing records.'))return;db.workers.splice(i,1);logActivity('Deleted worker: '+w.name);save();render()}
+function editWorker(i){if(!adminOK()) return;let w=db.workers[i];let name=prompt('Worker name',w.name);if(name===null)return;let cat=prompt('Category',w.category)||'';let phone=prompt('Phone',w.phone)||'';w.name=name.trim();w.category=cat;w.phone=phone;save();render()}
+function newWorker(){if(!adminOK()) return;let name=prompt('Worker name');if(!name)return;let id=prompt('ID (optional)')||('W'+Date.now());let phone=prompt('Phone (optional)')||'';let cat=prompt('Category (optional)')||'';let full=+prompt('Full-day rate', '0')||0;let half=+prompt('Half-day rate','0')||0;db.workers.push({id,name,phone,category:cat,fullRate:full,halfRate:half});save();render()}
+function paymentKey(id,p){return id+'|'+p.label}
+function getPayment(id,p){const v=db.payments[paymentKey(id,p)];if(!v)return {status:'due',paid:0};if(typeof v==='boolean')return {status:v?'paid':'due',paid:v?periodCalc(db.workers.find(w=>w.id===id)||{},p):0};return {status:v.status||((+v.paid||0)>=periodCalc(db.workers.find(w=>w.id===id)||{},p)?'paid':(+v.paid||0)>0?'partial':'due'),paid:+v.paid||0,date:v.date,method:v.method||'Cash'}}
+function renderPayments(){
+ let p=selectedPeriod(), q=(document.getElementById('paymentSearch')?.value||'').toLowerCase(); let list=db.workers.filter(w=>(w.name+' '+w.id+' '+w.category).toLowerCase().includes(q));
+ let totals=list.reduce((a,w)=>{let due=periodCalc(w,p),pay=getPayment(w.id,p).paid;a.due+=due;a.paid+=pay;return a},{due:0,paid:0});
+ const ps=document.getElementById('paymentSummary');if(ps)ps.innerHTML=`<div class="report-kpi"><b>${cur(totals.due)}</b><span>Total due</span></div><div class="report-kpi"><b>${cur(totals.paid)}</b><span>Paid</span></div><div class="report-kpi"><b>${cur(Math.max(0,totals.due-totals.paid))}</b><span>Outstanding</span></div>`;
+ paymentsList.innerHTML=list.map(w=>{let amount=periodCalc(w,p), rec=getPayment(w.id,p), outstanding=Math.max(0,amount-rec.paid), status=outstanding<=0&&amount>0?'PAID':rec.paid>0?'PARTIAL':'DUE';return `<div class="card"><div class="row"><div><div class="name">${esc(w.name)}</div><div class="meta">${periodPresent(w,p)} attendance days • ${esc(p.label)}</div></div><div class="right"><div class="amount">${cur(amount)}</div><span class="pill">${status}</span></div></div><div class="grid" style="margin-top:9px"><div><label>Amount paid</label><input id="pay_${esc(w.id)}" type="number" min="0" max="${amount}" value="${rec.paid}"></div><div><label>Method</label><select id="method_${esc(w.id)}"><option ${rec.method==='Cash'?'selected':''}>Cash</option><option ${rec.method==='M-Pesa'?'selected':''}>M-Pesa</option><option ${rec.method==='Bank'?'selected':''}>Bank</option><option ${rec.method==='Other'?'selected':''}>Other</option></select></div></div><div style="margin-top:9px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary" onclick="savePayment('${esc(w.id)}')">Save payment</button><button class="btn secondary" onclick="printReceipt('${esc(w.id)}')">🧾 Receipt</button><button class="btn secondary" onclick="showPaymentHistory('${esc(w.id)}')">📋 History</button><span class="meta" style="align-self:center">Outstanding: ${cur(outstanding)}</span></div></div>`}).join('')||'<div class="empty">No workers.</div>';
+ const lab=document.getElementById('paymentPeriodLabel');if(lab)lab.textContent=p.label;
+}
+function savePayment(id){if(!adminOK())return;const p=selectedPeriod(),w=db.workers.find(x=>x.id===id);if(!w)return;let due=periodCalc(w,p),paid=Math.max(0,Math.min(due,+(document.getElementById('pay_'+id)?.value||0))),method=document.getElementById('method_'+id)?.value||'Cash';db.payments[paymentKey(id,p)]={paid,status:paid>=due&&due>0?'paid':paid>0?'partial':'due',method,date:new Date().toISOString(),amount:due};logActivity('Payment updated: '+w.name+' '+cur(paid));save();render()}
+function showPaymentHistory(id){
+ const w=db.workers.find(x=>x.id===id);if(!w)return;
+ const rows=Object.keys(db.payments||{}).filter(k=>k.startsWith(id+'|')).map(k=>{const v=db.payments[k];const parts=k.split('|');const rec=typeof v==='boolean'?{paid:v?0:0,status:v?'paid':'due',method:'Cash'}:v;return `<tr><td>${esc(parts.slice(1).join('|'))}</td><td>${cur(rec.amount||0)}</td><td>${cur(rec.paid||0)}</td><td>${esc(String(rec.status||'due').toUpperCase())}</td><td>${esc(rec.method||'Cash')}</td><td>${rec.date?new Date(rec.date).toLocaleDateString():''}</td></tr>`}).join('');
+ const att=Object.keys(db.attendance||{}).filter(k=>k.startsWith(id+'|')).sort().reverse().map(k=>{const d=k.split('|')[1];return `<tr><td>${esc(d)}</td><td>${esc(String(db.attendance[k]).toUpperCase())}</td></tr>`}).join('');
+ const win=window.open('','_blank');if(!win){alert('Allow pop-ups to view history.');return}win.document.write(`<html><head><title>${esc(w.name)} History</title><style>body{font-family:Arial;padding:20px}table{border-collapse:collapse;width:100%;margin:10px 0}th,td{border:1px solid #ddd;padding:7px;text-align:left}h2{margin-bottom:4px}</style></head><body><h2>${esc(w.name)}</h2><p>${esc(w.id)} • ${esc(w.category)}</p><h3>Payment History</h3><table><tr><th>Period</th><th>Due</th><th>Paid</th><th>Status</th><th>Method</th><th>Date</th></tr>${rows||'<tr><td colspan="6">No payment records</td></tr>'}</table><h3>Attendance History</h3><table><tr><th>Date</th><th>Status</th></tr>${att||'<tr><td colspan="2">No attendance records</td></tr>'}</table></body></html>`);win.document.close();}
+function printReceipt(id){const p=selectedPeriod(),w=db.workers.find(x=>x.id===id);if(!w)return;const r=getPayment(id,p);const due=periodCalc(w,p),out=Math.max(0,due-r.paid),win=window.open('','_blank');if(!win){alert('Allow pop-ups to print the receipt.');return}win.document.write(`<html><head><title>Payment Receipt</title><style>body{font-family:Arial;padding:25px}h2{text-align:center}.line{border-bottom:1px solid #ddd;padding:8px 0}.total{font-size:20px;font-weight:bold}</style></head><body><h2>GOROFA WORKER PAYMENT</h2><div class="line"><b>Worker:</b> ${esc(w.name)}</div><div class="line"><b>ID:</b> ${esc(w.id)}</div><div class="line"><b>Period:</b> ${esc(p.label)}</div><div class="line"><b>Amount due:</b> ${cur(due)}</div><div class="line"><b>Amount paid:</b> ${cur(r.paid)}</div><div class="line"><b>Method:</b> ${esc(r.method)}</div><div class="line total">Outstanding: ${cur(out)}</div><p>Generated: ${new Date().toLocaleString()}</p><script>window.onload=()=>window.print()<\/script></body></html>`);win.document.close()}
+function renderSettings(){renderActivity();if(document.getElementById("currency"))currency.value=db.settings.currency;if(document.getElementById("workDays"))workDays.value=db.settings.workDays;const at=document.getElementById("attendanceDefaultTime");if(at)at.value=db.settings.attendanceDefaultTime||"08:00";renderAdminMembers();const ad=document.getElementById("attendanceDate");if(ad&&!ad.value)ad.value=iso(new Date());const tm=document.getElementById("attendanceTime");if(tm&&!tm.value)tm.value=db.settings.attendanceDefaultTime||"08:00"}
+function saveSettings(){if(!adminOK())return;db.settings.currency=currency.value||'KSh';db.settings.workDays=workDays.value||'';save();render()}
+function printWeekly(){
+ const d=days(), wk=week();
+ const total=db.workers.reduce((a,w)=>a+calc(w),0);
+ const rows=db.workers.map((w,i)=>{
+   const vals=d.map(x=>status(w.id,iso(x)));
+   const full=vals.filter(x=>x==='full').length, half=vals.filter(x=>x==='half').length;
+   const amt=calc(w), paid=db.payments[w.id+'|'+wk];
+   return `<tr><td>${i+1}</td><td>${esc(w.name)}</td>${vals.map(v=>`<td>${v==='full'?'F':v==='half'?'H':'-'}</td>`).join('')}<td>${full}</td><td>${half}</td><td>${present(w)}</td><td>${cur(amt)}</td><td>${paid?'PAID':'DUE'}</td><td></td></tr>`;
+ }).join('');
+ document.getElementById('printReport').innerHTML=`<h1>GOROFA WEEKLY WORKER ATTENDANCE & PAYMENT</h1>
+ <div class="print-meta">Week: <b>${d[0].toLocaleDateString()} – ${d[6].toLocaleDateString()}</b> &nbsp; | &nbsp; Total payroll: <b>${cur(total)}</b></div>
+ <table class="print-table"><thead><tr><th>#</th><th>Worker</th>${d.map(x=>`<th>${x.toLocaleDateString('en',{weekday:'short'}).slice(0,3)}<br>${x.getDate()}</th>`).join('')}<th>Full</th><th>Half</th><th>Days</th><th>Amount</th><th>Status</th><th>Signature</th></tr></thead><tbody>${rows}</tbody>
+ <tfoot><tr><th colspan="9">TOTAL PAYROLL</th><th>${cur(total)}</th><th></th><th></th></tr></tfoot></table>
+ <div class="sign"><div class="sig">Prepared by</div><div class="sig">Checked by</div><div class="sig">Site/Manager signature</div></div>`;
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+ document.getElementById('printReport').style.display='block';
+ window.print();
+ setTimeout(()=>{document.getElementById('printReport').style.display='none';show('payments')},500);
+}
+
+
+function adminOK(){return isLoggedIn();}
+function adminAction(action){
+ if(!adminOK()) {alert('Access denied. Admin PIN required.');return;}
+ if(action==='lock'){
+   let d=iso(new Date());
+   db.locks[d]=true; save(); render();
+   alert('Today is now LOCKED. Attendance cannot be changed without Admin.');
+ }
+}
+function setAdminPin(){if(!isLoggedIn())return;let pin=adminPin.value.trim();if(!/^\d{4,8}$/.test(pin)){alert('Use a 4–8 digit PIN.');adminPin.value='';return}db.settings.adminPin=pin;save();alert('Legacy Admin PIN saved. Main security now uses the administrator login.');}
+function adminUnlockDate(date){
+ if(!adminOK()) return;
+ delete db.locks[date];save();render();alert('Date unlocked for Admin changes.');
+}
+function adminEditAttendance(wid,date){
+ if(!adminOK()) return;
+ let k=key(wid,date),v=status(wid,date);
+ db.attendance[k]=v==='off'?'full':v==='full'?'half':'off';save();render();
+}
+
+
+function renderDaily(){
+ let d=iso(new Date()); todayLabel.textContent=new Date().toLocaleDateString('en',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+ let locked=!!db.locks[d];
+  todayLock.innerHTML=locked?`<div class="locked">🔒 TODAY IS LOCKED. Members cannot change attendance. <button class="btn admin" onclick="adminUnlockDate('${d}')">Admin Unlock</button></div>`:`<div class="notice">🟢 Attendance is open. Admin can manually lock it when needed.</div>`;
+ let total=db.workers.length, presentN=db.workers.filter(w=>status(w.id,d)!=='off').length;
+ let fullN=db.workers.filter(w=>status(w.id,d)==='full').length, halfN=db.workers.filter(w=>status(w.id,d)==='half').length;
+ let amount=db.workers.reduce((a,w)=>a+(status(w.id,d)==='full'?+w.fullRate:status(w.id,d)==='half'?+w.halfRate:0),0);
+ todayStats.innerHTML=`<div class="stat"><b>${total}</b><span>All workers</span></div><div class="stat"><b>${presentN}</b><span>Present today</span></div><div class="stat"><b>${fullN}/${halfN}</b><span>Full / Half</span></div><div class="stat"><b>${cur(amount)}</b><span>Today's amount</span></div>`;
+ todayAmount.textContent=cur(amount);
+ todayList.innerHTML=db.workers.map(w=>{let v=status(w.id,d);return `<div class="row" style="padding:9px 0;border-bottom:1px solid var(--line)"><div class="worker-head"><img class="worker-photo" src="${AVATAR}" alt="Construction worker"><div><b>${esc(w.name)}</b><div class="meta">${esc(w.category)} • ${esc(w.id)}</div></div></div><div><span class="pill">${v==='full'?'FULL':v==='half'?'HALF':'OFF'}</span>${locked?`<button class="btn secondary no-print" onclick="adminEditAttendance('${esc(w.id)}','${d}')">Admin edit</button>`:''}</div></div>`}).join('');
+}
+
+function weekRange(){const d=days();return [iso(d[0]),iso(d[6])];}
+function inCurrentWeek(date){const [a,b]=weekRange();return date>=a&&date<=b;}
+function expenseTotal(e){return (+e.quantity||0)*(+e.unitAmount||+e.amount||0)}
+function materialTotal(m){return (+m.trips||0)*(+m.rate||0)}
+function renderWeekCosts(){
+  const ex=db.expenses.filter(e=>inCurrentWeek(e.date));
+  const mat=db.materials.filter(m=>inCurrentWeek(m.date));
+  const et=ex.reduce((a,e)=>a+expenseTotal(e),0), mt=mat.reduce((a,m)=>a+materialTotal(m),0);
+  const exEl=document.getElementById('weekExpenses'), matEl=document.getElementById('weekMaterials');
+  const etEl=document.getElementById('weekExpenseTotal'), mtEl=document.getElementById('weekMaterialTotal');
+  if(etEl)etEl.textContent=cur(et); if(mtEl)mtEl.textContent=cur(mt);
+  if(exEl)exEl.innerHTML=ex.map(e=>`<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><div><b>${esc(e.item||e.category||'Expense')}</b><div class="meta">${esc(e.date)} • Qty ${e.quantity||1} × ${cur(e.unitAmount||e.amount||0)}</div></div><b>${cur(expenseTotal(e))}</b></div>`).join('')||'<div class="empty">No expenses this week.</div>';
+  if(matEl)matEl.innerHTML=mat.map(m=>`<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><div><b>${esc(m.type)}</b><div class="meta">${esc(m.date)} • ${m.trips} trip(s) × ${cur(m.rate)}</div></div><b>${cur(materialTotal(m))}</b></div>`).join('')||'<div class="empty">No materials this week.</div>';
+}
+function setAttendanceToday(){const d=document.getElementById('attendanceDate');if(d)d.value=iso(new Date());renderDateAttendance()}
+function renderDateAttendance(){
+ const d=document.getElementById('attendanceDate')?.value||iso(new Date());
+ const q=(document.getElementById('searchDateAtt')?.value||'').toLowerCase();
+ const time=document.getElementById('attendanceTime'); if(time&&!time.value)time.value=db.settings.attendanceDefaultTime||'08:00';
+ const label=document.getElementById('attendanceDateLabel'); if(label)label.textContent=new Date(d+'T00:00:00').toLocaleDateString('en',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ const list=db.workers.filter(w=>(w.name+' '+w.id+' '+w.category).toLowerCase().includes(q));
+ const el=document.getElementById('dateAttendanceList'); if(!el)return;
+ const marked=list.filter(w=>status(w.id,d)!=='off').length;
+ const sum=document.getElementById('attendanceMarkedSummary'); if(sum)sum.textContent=`${marked}/${list.length} marked`;
+ el.innerHTML=list.map(w=>{const v=status(w.id,d),meta=db.attendanceMeta[key(w.id,d)]||{};return `<div class="row" style="padding:10px 0;border-bottom:1px solid var(--line)"><div class="worker-head"><img class="worker-photo" src="${AVATAR}" alt="Construction worker"><div><b>${esc(w.name)}</b><div class="meta">${esc(w.category)} • ${esc(w.id)}${meta.time?' • '+esc(meta.time):''}</div></div></div><div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end"><button class="btn ${v==='full'?'primary':'secondary'}" onclick="markDateWorker('${esc(w.id)}','${d}','full')">FULL</button><button class="btn ${v==='half'?'primary':'secondary'}" onclick="markDateWorker('${esc(w.id)}','${d}','half')">HALF</button><button class="btn ${v==='off'?'danger':'secondary'}" onclick="markDateWorker('${esc(w.id)}','${d}','off')">OFF</button></div></div>`}).join('')||'<div class="empty">No workers found.</div>';
+}
+function markDateWorker(wid,date,value){if(!isLoggedIn())return;const time=document.getElementById('attendanceTime')?.value||db.settings.attendanceDefaultTime||'08:00';db.attendance[key(wid,date)]=value;logActivity('Attendance marked: '+wid+' '+date+' '+value);db.attendanceMeta[key(wid,date)]={time,updatedAt:new Date().toISOString()};save();renderDateAttendance();renderDashboard();}
+function markSelectedAttendance(){if(!isLoggedIn())return;const t=document.getElementById('attendanceTime')?.value;if(!t){alert('Select a marking time first.');return}db.settings.attendanceDefaultTime=t;save();renderDateAttendance();alert('Attendance marking time saved. Use FULL, HALF or OFF beside each worker.');}
+function addExpense(){if(!adminOK())return;const date=document.getElementById('expenseDate').value||iso(new Date()),item=document.getElementById('expenseItem').value.trim(),quantity=+(document.getElementById('expenseQuantity').value||1),unitAmount=+(document.getElementById('expenseUnitAmount').value||0),category=document.getElementById('expenseCategory').value.trim(),description=document.getElementById('expenseDescription').value.trim();if(!item){alert('Enter an expense item.');return}if(quantity<=0||unitAmount<0){alert('Enter valid quantity and amount per item.');return}db.expenses.push({id:Date.now(),date,item,quantity,unitAmount,category,description});save();render();}
+function deleteExpense(id){if(!adminOK())return;if(!confirm('Delete this expense record?'))return;db.expenses=db.expenses.filter(e=>String(e.id)!==String(id));save();render();}
+function addMaterial(){if(!adminOK())return;const date=document.getElementById('materialDate').value||iso(new Date()),type=document.getElementById('materialType').value,trips=+(document.getElementById('materialTrips').value||0),rate=+(document.getElementById('materialRate').value||0);if(trips<=0||rate<0){alert('Enter valid trips and rate per trip.');return}db.materials.push({id:Date.now(),date,type,trips,rate});save();render();}
+function deleteMaterial(id){if(!adminOK())return;if(!confirm('Delete this material record?'))return;db.materials=db.materials.filter(m=>String(m.id)!==String(id));save();render();}
+function renderExpenseSettings(){
+ const d=document.getElementById('expenseDate'),md=document.getElementById('materialDate');if(d&&!d.value)d.value=iso(new Date());if(md&&!md.value)md.value=iso(new Date());
+ const list=document.getElementById('expenseList');if(list){list.innerHTML=db.expenses.slice().reverse().map(e=>`<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><div><b>${esc(e.item||e.category)}</b><div class="meta">${esc(e.date)} • Qty ${e.quantity||1} × ${cur(e.unitAmount||e.amount||0)}</div></div><div><b>${cur(expenseTotal(e))}</b> <button class="btn danger" onclick="deleteExpense('${e.id}')">×</button></div></div>`).join('')||'<div class="empty">No expenses recorded.</div>'}
+ const ml=document.getElementById('materialList');if(ml){ml.innerHTML=db.materials.slice().reverse().map(m=>`<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><div><b>${esc(m.type)}</b><div class="meta">${esc(m.date)} • ${m.trips} trip(s) × ${cur(m.rate)}</div></div><div><b>${cur(materialTotal(m))}</b> <button class="btn danger" onclick="deleteMaterial('${m.id}')">×</button></div></div>`).join('')||'<div class="empty">No materials recorded.</div>'}
+}
+function reportDates(){const type=document.getElementById('reportPeriod')?.value||'week',raw=document.getElementById('reportDate')?.value||iso(new Date()),dt=new Date(raw+'T00:00:00');let start,end;if(type==='month'){start=new Date(dt.getFullYear(),dt.getMonth(),1);end=new Date(dt.getFullYear(),dt.getMonth()+1,1)}else if(type==='year'){start=new Date(dt.getFullYear(),0,1);end=new Date(dt.getFullYear()+1,0,1)}else{start=monday(dt);end=new Date(start);end.setDate(end.getDate()+7)}const out=[];for(let x=new Date(start);x<end;x.setDate(x.getDate()+1))out.push(new Date(x));return out}
+function renderReports(){const st=document.getElementById('reportStats'),rt=document.getElementById('reportTable'),ea=document.getElementById('expenseArea');if(!st||!rt||!ea)return;const ds=reportDates(),from=iso(ds[0]),to=iso(ds[ds.length-1]);const payroll=db.workers.reduce((a,w)=>a+periodCalc(w,{days:ds}),0),ex=db.expenses.filter(e=>e.date>=from&&e.date<=to).reduce((a,e)=>a+expenseTotal(e),0),mat=db.materials.filter(m=>m.date>=from&&m.date<=to).reduce((a,m)=>a+materialTotal(m),0),totalCost=payroll+ex+mat;st.innerHTML=`<div class="report-kpi"><b>${db.workers.length}</b><span>Workers</span></div><div class="report-kpi"><b>${cur(payroll)}</b><span>Payroll</span></div><div class="report-kpi"><b>${cur(ex)}</b><span>Expenses</span></div><div class="report-kpi"><b>${cur(mat)}</b><span>Materials</span></div>`;rt.innerHTML='<div class="report-scroll"><table class="report-table"><thead><tr><th>Worker</th><th>Days</th><th>Amount</th></tr></thead><tbody>'+db.workers.map(w=>`<tr><td>${esc(w.name)}</td><td>${periodPresent(w,{days:ds})}</td><td>${cur(periodCalc(w,{days:ds}))}</td></tr>`).join('')+'</tbody></table></div>';ea.innerHTML=`<div class="summary-grid"><div class="report-kpi"><b>${cur(ex)}</b><span>Expenses</span></div><div class="report-kpi"><b>${cur(mat)}</b><span>Materials</span></div><div class="report-kpi"><b>${cur(totalCost)}</b><span>Total site cost</span></div></div>`}
+function exportReportCSV(){const ds=reportDates(),rows=[['Worker','Days','Payroll']];db.workers.forEach(w=>rows.push([w.name,periodPresent(w,{days:ds}),periodCalc(w,{days:ds})]));rows.push([],['Expenses total',db.expenses.filter(e=>ds.some(d=>iso(d)===e.date)).reduce((a,e)=>a+expenseTotal(e),0)]);rows.push(['Materials total',db.materials.filter(m=>ds.some(d=>iso(d)===m.date)).reduce((a,m)=>a+materialTotal(m),0)]);const csv=rows.map(r=>r.map(x=>'"'+String(x??'').replace(/"/g,'""')+'"').join(',')).join('\\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='gorofa-report.csv';a.click();}
+function printSmartReport(){printWeekly()}
+function downloadReportHTML(){
+ const ds=reportDates(), type=document.getElementById('reportPeriod')?.value||'week', date=document.getElementById('reportDate')?.value||iso(new Date());
+ const payroll=db.workers.reduce((a,w)=>a+periodCalc(w,{days:ds}),0);
+ const ex=db.expenses.filter(e=>e.date>=iso(ds[0])&&e.date<=iso(ds[ds.length-1])).reduce((a,e)=>a+expenseTotal(e),0);
+ const mat=db.materials.filter(m=>m.date>=iso(ds[0])&&m.date<=iso(ds[ds.length-1])).reduce((a,m)=>a+materialTotal(m),0);
+ const rows=db.workers.map(w=>`<tr><td>${esc(w.name)}</td><td>${periodPresent(w,{days:ds})}</td><td>${cur(periodCalc(w,{days:ds}))}</td></tr>`).join('');
+ const html=`<!doctype html><html><head><meta charset="utf-8"><title>wellness.com - Gorofa Report</title><style>body{font-family:Arial,sans-serif;padding:30px;color:#172033}h1{color:#0b5cab}table{width:100%;border-collapse:collapse;margin-top:20px}th,td{border:1px solid #ccc;padding:9px;text-align:left}th{background:#eef5ff}.cards{display:flex;gap:12px;flex-wrap:wrap}.card{border:1px solid #ddd;padding:12px;border-radius:8px;min-width:150px}.value{font-size:20px;font-weight:bold}</style></head><body><h1>GOROFA WORKER PAYMENT REPORT</h1><p>Period: ${type} | Date: ${date}</p><div class="cards"><div class="card">Payroll<div class="value">${cur(payroll)}</div></div><div class="card">Expenses<div class="value">${cur(ex)}</div></div><div class="card">Materials<div class="value">${cur(mat)}</div></div><div class="card">Total Site Cost<div class="value">${cur(payroll+ex+mat)}</div></div></div><table><thead><tr><th>Worker</th><th>Days</th><th>Payroll</th></tr></thead><tbody>${rows}</tbody></table><p>Generated by wellness.com</p></body></html>`;
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download='gorofa-report-'+date+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function saveAttendanceTime(){const t=document.getElementById('attendanceDefaultTime').value;if(t){db.settings.attendanceDefaultTime=t;save();const at=document.getElementById('attendanceTime');if(at)at.value=t;}}
+function renderAdminMembers(){const el=document.getElementById('adminMembersList');if(!el)return;const arr=db.settings.adminMembers||[];el.innerHTML=arr.map((m,i)=>`<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><div><b>${esc(m.username)}</b><div class="meta">Administrator member</div></div><button class="btn danger" onclick="removeAdminMember(${i})">Remove</button></div>`).join('')||'<div class="empty">No additional admin members.</div>'}
+async function addAdminMember(){if(!isLoggedIn())return;const u=document.getElementById('newAdminUser').value.trim(),p=document.getElementById('newAdminPass').value;if(!u||p.length<8){alert('Username is required and password must contain at least 8 characters.');return}if(u===authSettings().username||(db.settings.adminMembers||[]).some(m=>m.username===u)){alert('That username already exists.');return}const salt=randomBytes(16);db.settings.adminMembers.push({username:u,salt:b64(salt),passwordHash:await hashPassword(p,salt),createdAt:new Date().toISOString()});save();document.getElementById('newAdminUser').value='';document.getElementById('newAdminPass').value='';renderAdminMembers();alert('Admin member added successfully.')}
+function removeAdminMember(i){if(!adminOK())return;db.settings.adminMembers.splice(i,1);save();renderAdminMembers()}
+function render(){renderDashboard();renderDaily();renderAttendance();renderDateAttendance();renderWorkers();renderPayments();renderSettings();renderReports();renderExpenseSettings()}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function logActivity(message){db.activity=db.activity||[];db.activity.unshift({time:new Date().toISOString(),message});db.activity=db.activity.slice(0,200)}
+function renderActivity(){const el=document.getElementById('activityLog');if(!el)return;el.innerHTML=(db.activity||[]).slice(0,30).map(a=>`<div class="row" style="padding:7px 0;border-bottom:1px solid var(--line)"><span>${esc(a.message)}</span><span class="meta">${new Date(a.time).toLocaleString()}</span></div>`).join('')||'<div class="empty">No admin activity yet.</div>'}
+function importData(ev){if(!adminOK())return;const f=ev.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const incoming=JSON.parse(r.result);if(!incoming||!Array.isArray(incoming.workers))throw new Error('Invalid backup');if(!confirm('Restore this backup? Current data will be replaced.'))return;db=incoming;db.settings=db.settings||{};db.activity=Array.isArray(db.activity)?db.activity:[];logActivity('Restored data backup');save();render();alert('Backup restored successfully.')}catch(e){alert('Invalid backup file.')}};r.readAsText(f);ev.target.value=''}
+function exportData(){if(!adminOK())return;logActivity('Created data backup');save();let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));a.download='gorofa-backup.json';a.click()}
+function resetAll(){if(confirm('Clear all attendance and payment history? Worker list will remain.')){db.attendance={};db.payments={};save();render()}}
+setThisWeek(); initPeriod(); render(); initAuth(); initFirebaseCloud();
+</script>
+</body></html>
